@@ -5,6 +5,10 @@ import java.io.Serializable;
 //gromada
 public class Class implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 
 	public Class (String name){

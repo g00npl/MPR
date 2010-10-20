@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class Animal implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name; //imie
 	private String species; //gatunek
 	//Date birthYear;
