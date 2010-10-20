@@ -1,0 +1,51 @@
+<project name="Zoo" default="run">
+
+
+<property name="mainclass" value="pl.com.zoo.main.Zoo"/>
+<property name="src" value="src"/>
+<property name="bin" value="bin"/>
+<property name="dist" value="dist"/>
+<property name="data" value="data"/>
+<property name="jarname" value="${ant.project.name}.jar"/>
+
+
+
+
+<target name="init">
+	<mkdir dir="${bin}"/>
+	<mkdir dir="${dist}"/>
+	<mkdir dir="${data}"/>
+</target>
+
+<target name="compile" depends="init">
+	<javac srcdir="${src}" destdir="${bin}"/>
+</target>
+
+<target name="clean">
+	<delete dir="${bin}"/>
+<delete includeemptydirs="true">
+	<fileset dir="${dist}" includes="*.jar"/>
+	</delete>
+</target>
+
+<target name="run" depends="compile">
+ 	<java classname="${mainclass}" classpath="${bin}"/>
+</target>
+
+<target name="makejar" depends="compile">
+	<jar destfile="${dist}/${jarname}" basedir="${bin}">
+	<manifest>
+      	<attribute name="Main-Class" value="${mainclass}"/>
+        </manifest>
+</jar>
+</target>
+
+<target name="runjar" depends="makejar">
+	<java jar="${dist}/${jarname}" fork="true"/>
+</target>
+
+<target name="rebuild" depends="clean,compile"/>
+<target name="cleanrun" depends="rebuild,run"/>
+
+</project>
+
