@@ -27,7 +27,7 @@ public class Zoo {
 		// System.out.println("\n\nZapis/odczyt z pliku...\n\n");
 		// keeper.saveAnimalsToFile();
 		// keeper.readAnimalsFromFile();
-		// keeper.printAnimals();sss
+		// keeper.printAnimals();ssssadasd
 	}
 
 }
