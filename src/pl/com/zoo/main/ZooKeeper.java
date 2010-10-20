@@ -14,11 +14,11 @@ import pl.com.zoo.data.FileManager;
 public class ZooKeeper {
 
 	private Map<Class, Set<Animal>> animals = new HashMap<Class, Set<Animal>>();
-	
+
 	private FileManager fm = new FileManager("data/animals.bin");
-	
 
 	public void makeAnimalsRegister() {
+	
 		Animal tiger = new Animal("Pimpus", "tiger", 200.5);
 		Animal camel = new Animal("George", "camel", 253);
 		Animal spider = new Animal("Puszek", "spider", 0.3);
@@ -36,22 +36,31 @@ public class ZooKeeper {
 		animals.put(arachnids, ara);
 
 	}
-	
-	public void saveAnimalsToFile(){
+
+	public void addAnimal(Class klasa, Animal nazwa) {
+		Set<Animal> newhash = new HashSet<Animal>();
+		newhash.add(nazwa);
+		animals.put(klasa, newhash);
+
+		saveAnimalsToFile();
 		
-	try {
-		fm.saveAnimalsRegister(animals);
-	} catch (FileNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
 	}
+
+	public void saveAnimalsToFile() {
+
+		try {
+			fm.saveAnimalsRegister(animals);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	
-	public void readAnimalsFromFile(){
-		
+
+	public void readAnimalsFromFile() {
+
 		try {
 			animals = fm.readAnimalsRegister();
 		} catch (IOException e) {
@@ -62,8 +71,6 @@ public class ZooKeeper {
 			e.printStackTrace();
 		}
 	}
-		
-	
 
 	public void printAnimals() {
 
