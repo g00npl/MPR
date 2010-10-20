@@ -31,7 +31,6 @@ public class ZooKeeper {
 		mam.add(camel);
 		Set<Animal> ara = new HashSet<Animal>();
 		ara.add(spider);
-
 		animals.put(mammals, mam);
 		animals.put(arachnids, ara);
 
@@ -42,6 +41,13 @@ public class ZooKeeper {
 		newhash.add(nazwa);
 		animals.put(klasa, newhash);
 
+		saveAnimalsToFile();
+		
+	}
+	
+	public void removeAnimal(Animal nazwa){
+		animals.remove(nazwa);
+		
 		saveAnimalsToFile();
 		
 	}
