@@ -46,7 +46,21 @@ public class ZooKeeper {
 	}
 	
 	public void removeAnimal(Animal nazwa){
-		animals.remove(nazwa);
+	
+				
+		for (Class c : animals.keySet()) {
+			
+			for (Animal a : animals.get(c)) {
+				
+				if (animals.get(c).equals(nazwa)) {
+				
+					animals.remove(c);
+				
+				}
+			}
+		}
+		
+		
 		
 		saveAnimalsToFile();
 		
