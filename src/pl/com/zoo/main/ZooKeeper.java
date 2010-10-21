@@ -52,7 +52,7 @@ public class ZooKeeper {
 			
 			for (Animal a : animals.get(c)) {
 				
-				if (animals.get(c).equals(nazwa)) {
+				if (a.equals(nazwa)) {
 				
 					animals.remove(c);
 				
