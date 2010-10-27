@@ -31,7 +31,7 @@ public class ZooKeeperTest {
 		}
 		keeper.readAnimalsFromFile();
 
-		keeper.printAnimals();
+//		keeper.printAnimals();
 
 		int size = keeper.animals.size();
 		assertEquals("Liczba klas sie zmienila", initialMapSize, size);
@@ -57,7 +57,7 @@ public class ZooKeeperTest {
 		}
 		keeper.readAnimalsFromFile();
 
-		keeper.printAnimals();
+//		keeper.printAnimals();
 		int size = keeper.animals.size();
 		assertEquals("Liczba klas sie zmienila", initialMapSize, size);
 		boolean found = false;
@@ -77,7 +77,7 @@ public class ZooKeeperTest {
 		keeper.saveAnimalsToFile();
 		keeper.readAnimalsFromFile();
 		keeper.addAnimal(existing, tygrys);
-		keeper.printAnimals();
+//		keeper.printAnimals();
 		int size = keeper.animals.size();
 		assertEquals("Liczba klas sie zmienila", initialMapSize, size);
 
@@ -138,8 +138,8 @@ public class ZooKeeperTest {
 	public void removeExistingAnimalTest() {
 		Animal tygrys = new Animal("Pimpus", "tiger", 200.5);
 		keeper.removeAnimal(tygrys);
-		System.out.println("=====Po usunieciu=====");
-		keeper.printAnimals();
+//		System.out.println("=====Po usunieciu=====");
+//		keeper.printAnimals();
 
 		int size = keeper.animals.size();
 		assertEquals("Liczba klas powinna zwiekszyc sie o 1", initialMapSize,
@@ -159,8 +159,8 @@ public class ZooKeeperTest {
 	@Test
 	public void removeNewAnimalTest() {
 		Animal newAnimal = new Animal("nowe", "nowe", 200.5);
-		System.out.println("=====Po usunieciu=====");
-		keeper.printAnimals();
+//		System.out.println("=====Po usunieciu=====");
+//		keeper.printAnimals();
 
 		int size = keeper.animals.size();
 		assertEquals(initialMapSize, size);
@@ -170,8 +170,8 @@ public class ZooKeeperTest {
 
 	@Test
 	public void removeNullTest() {
-		System.out.println("=====Po usunieciu=====");
-		keeper.printAnimals();
+//		System.out.println("=====Po usunieciu=====");
+//		keeper.printAnimals();
 		int size = keeper.animals.size();
 		assertEquals(initialMapSize, size);
 		assertFalse(keeper.removeAnimal(null));
