@@ -2,9 +2,6 @@ package pl.com.zoo.main;
 
 import static org.junit.Assert.*;
 
-
-
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,91 +11,83 @@ import pl.com.zoo.basic.Class;
 public class ZooKeeperTest {
 
 	private ZooKeeper keeper;
-
+	private int initialMapSize;
+	
 	@Before
-	public void setUp() {
+	public void setUp(){
 		keeper = new ZooKeeper("data/test.bin");
-
 		keeper.makeAnimalsRegister();
-		assertNotNull(keeper);
-	}
-
-	@Test
-	public void addAnimalToExistingClassTest() {
-		int rozmiargromad = keeper.animals.keySet().size();
-		Class existing = new Class("mammals");
-		Animal newAnimal = new Animal("test", "test", 0);
-		
-		
-		keeper.addAnimal(existing, newAnimal);
-		keeper.readAnimalsFromFile();
-		assertTrue(keeper.animals.keySet().size() == rozmiargromad);
-		
-		boolean znalezionezwierze = false;
-		outer: for (Class c : keeper.animals.keySet()){
-			for (Animal d : keeper.animals.get(c)){
-				
-				if((d.equals(newAnimal)) &&  c.equals(existing)){
-					znalezionezwierze = true;
-					break outer;
-				}
-			}
-		}
-			
-			assertTrue(znalezionezwierze);
-		
-		
+		keeper.saveAnimalsToFile();
+		initialMapSize = keeper.animals.size();
 	}
 	
-	
 	@Test
-	public void addAnimalNullClass(){
-		int size = keeper.animals.size();
-		Animal nowezwierze = new Animal("mucha", "mucha", 0);
+	public void addAnimalNullClassTest(){
+		Animal newAnimal = new Animal("test","test",0);
 		try{
-		keeper.addAnimal(null, nowezwierze);
+			keeper.addAnimal(null, newAnimal);
 		} catch (Exception e){
 			fail();
 		}
 		keeper.readAnimalsFromFile();
-		assertTrue(keeper.animals.keySet().size() == size);
 		
-		boolean znalezionezwierze = false;
-		outer: for (Class c : keeper.animals.keySet()){
-			for (Animal d : keeper.animals.get(c)){
-				
-				if((d.equals(nowezwierze))){
-					znalezionezwierze = true;
+		keeper.printAnimals();
+		
+		int size = keeper.animals.size();
+		assertEquals("Liczba klas sie zmienila",initialMapSize,size);
+		
+		boolean found = false;
+		outer: for(Class c : keeper.animals.keySet())
+			for(Animal a : keeper.animals.get(c))
+				if(a.equals(newAnimal)){
+					found=true;
 					break outer;
 				}
-			}
-		}
-			
-			assertFalse(znalezionezwierze);
+		assertFalse("Dodano zwierze do spisu mimo ze klasa jest null"
+				,found);
 	}
 	
 	@Test
-	public void addAnimalToNewClass(){
-		int rozmiargromad = keeper.animals.keySet().size();
-		Class nowaklasa = new Class("test");
-		Animal nowezwierze = new Animal("mucha", "mucha", 0);
-		
-		
-		keeper.addAnimal(nowaklasa, nowezwierze);
+	public void addAnimalToExistingClassTest(){
+		Class existing = new Class("mammals");
+		Animal newAnimal = new Animal("test","test",0);
+		keeper.addAnimal(existing, newAnimal);
 		keeper.readAnimalsFromFile();
-		assertTrue(keeper.animals.keySet().size() == (rozmiargromad+1));
 		
-		boolean znalezionezwierze = false;
-		outer: for (Class c : keeper.animals.keySet()){
-			for (Animal d : keeper.animals.get(c)){
-				
-				if((d.equals(nowezwierze)) &&  c.equals(nowaklasa)){
-					znalezionezwierze = true;
+		int size = keeper.animals.size();
+		assertEquals("Liczba klas sie zmienila",initialMapSize,size);
+		
+		boolean found = false;
+		outer: for(Class c : keeper.animals.keySet())
+			for(Animal a : keeper.animals.get(c))
+				if(a.equals(newAnimal) && c.equals(existing)){
+					found=true;
 					break outer;
 				}
-			}
-		}
-			
-			assertTrue(znalezionezwierze);
+		assertTrue("Nie dodano zwierzecia do spisu lub dodano" +
+				"do niewlasciwej klasy",found);
 	}
+	
+	@Test
+	public void addAnimalToNewClassTest(){
+		Class newClass = new Class("test");
+		Animal newAnimal = new Animal("test","test",0);
+		keeper.addAnimal(newClass, newAnimal);
+		keeper.readAnimalsFromFile();
+		
+		int size = keeper.animals.size();
+		assertEquals("Liczba klas powinna zwiekszyc sie o 1"
+				,initialMapSize+1,size);
+		
+		boolean found = false;
+		outer: for(Class c : keeper.animals.keySet())
+			for(Animal a : keeper.animals.get(c))
+				if(a.equals(newAnimal) && c.equals(newClass)){
+					found=true;
+					break outer;
+				}
+		assertTrue("Nie dodano zwierzecia do spisu lub dodano" +
+				"do niewlasciwej klasy",found);
+	}
+	
 }
