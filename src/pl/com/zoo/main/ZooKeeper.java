@@ -14,26 +14,42 @@ public class ZooKeeper {
 	protected Map<Class, Set<Animal>> animals = new HashMap<Class, Set<Animal>>();
 
 	private FileManager fm = new FileManager("data/animals.bin");
-	
-	public ZooKeeper(String filename){
+
+	public ZooKeeper(String filename) {
 		fm = new FileManager(filename);
 	}
-	public ZooKeeper(){
+
+	public ZooKeeper() {
 		fm = new FileManager("data/animals.bin");
 	}
 
 	/**
 	 * Dodaje zwierze do spisu i uaktualnia go w pliku.
-	 * @param cl - gromada do ktorej nalezy dodac zwierze (sprawdzanie isnienia gromady odbywa sie
-	 * 				przy pomocy metody equals
-	 * @param an - zwierze do dodania
-	 * @return true - jesli gromada juz istniala, false - jesli trzeba bylo dodac takze gromade
+	 * 
+	 * @param cl
+	 *            - gromada do ktorej nalezy dodac zwierze (sprawdzanie isnienia
+	 *            gromady odbywa sie przy pomocy metody equals
+	 * @param an
+	 *            - zwierze do dodania
+	 * @return true - jesli gromada juz istniala, false - jesli trzeba bylo
+	 *         dodac takze gromade
 	 */
 	public boolean addAnimal(Class cl, Animal an) {
-		if(cl == null){
+		if (cl == null) {
 			System.err.println("Klasa jest nullem, przerywam");
 			return false;
 		}
+		if (an == null) {
+			System.err.println("Zwierze jest nullem, przerywam");
+			return false;
+		}
+		for (Class c : animals.keySet())
+			for (Animal a : animals.get(c))
+				if (a.equals(an)) {
+					System.err
+							.println("Chcesz Dodac Istniejece Zwierze, przerywam.");
+					return false;
+				}
 		boolean found = false;
 		for (Class c : animals.keySet())
 			if (c.equals(cl)) {
@@ -51,20 +67,37 @@ public class ZooKeeper {
 
 	/**
 	 * Usuwa zwierze ze spisu i uaktualnia spis w pliku
-	 * @param an - zwierze do usuniecia (szukanie przy uzyciu metody equals)
+	 * 
+	 * @param an
+	 *            - zwierze do usuniecia (szukanie przy uzyciu metody equals)
 	 * @return true - usunieto zwierze, false - nie znaleziono zwierzecia
 	 */
 	public boolean removeAnimal(Animal an) {
+		boolean found = false;
+		if (an == null){
+			System.err.println("Nie usune nulla ze spisu zwierzat");
+			return false;
+		}
+		for (Class c : animals.keySet())
+			for (Animal a : animals.get(c))
+				if (a.equals(an)) {
+					found = true;
+				}
+			if(!found){
+				System.err.println("Nie usune nieistniejacego zwierzaka");
+				return false;
+			}
+		
 		Animal toRemove = null;
 		for (Set<Animal> s : animals.values()) {
-			for(Animal a : s)
-				if(a.equals(an))
+			for (Animal a : s)
+				if (a.equals(an))
 					toRemove = a;
-			if(toRemove!=null)
+			if (toRemove != null)
 				s.remove(toRemove);
 		}
 		saveAnimalsToFile();
-		return !(toRemove==null);
+		return !(toRemove == null);
 	}
 
 	public void saveAnimalsToFile() {
