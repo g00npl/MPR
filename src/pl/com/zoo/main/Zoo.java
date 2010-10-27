@@ -11,11 +11,10 @@ public class Zoo {
 		ZooKeeper keeper = new ZooKeeper();
 		// keeper.readAnimalsFromFile();
 		keeper.makeAnimalsRegister();
-		// keeper.printAnimals();
-
+		//keeper.printAnimals();
+		
 		Animal orf = new Animal("Orf", "Ogr", 0.3);
 		Class tak = new Class("ogr");
-
 		Animal goon1 = new Animal("Goonasdasdasd", "skorpion", 0.3);
 		Class tak1 = new Class("arachnids");
 		keeper.addAnimal(tak, orf);
@@ -23,10 +22,10 @@ public class Zoo {
 		keeper.readAnimalsFromFile();
 		keeper.printAnimals();
 
-		System.out.println("Witaj w ZOO!\n\n\n");
-		keeper.removeAnimal(orf);
-		keeper.readAnimalsFromFile();
-		keeper.printAnimals();
+//		System.out.println("Usuwamy orfa!\n\n\n");
+//		keeper.removeAnimal(orf);
+//		keeper.readAnimalsFromFile();
+//		keeper.printAnimals();
 		// System.out.println("\n\nZapis/odczyt z pliku...\n\n");
 		// keeper.saveAnimalsToFile();
 		// keeper.readAnimalsFromFile();

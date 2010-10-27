@@ -1,51 +1,77 @@
-<project name="Zoo" default="run">
+<project name="Zoo" default="runwithAssertions">
 
 
-<property name="mainclass" value="pl.com.zoo.main.Zoo"/>
-<property name="src" value="src"/>
-<property name="bin" value="bin"/>
-<property name="dist" value="dist"/>
-<property name="data" value="data"/>
-<property name="jarname" value="${ant.project.name}.jar"/>
+	<property name="mainclass" value="pl.com.zoo.main.Zoo" />
+	<property name="src" value="src" />
+	<property name="bin" value="bin" />
+	<property name="dist" value="dist" />
+	<property name="data" value="data" />
+	<property name="jarname" value="${ant.project.name}.jar" />
 
 
+	<path id="classpath.base" />
 
+	<path id="classpath.test">
+		<pathelement location="lib/junit-4.8.2.jar" />
+		<pathelement location="${bin}" />
+		<pathelement location="${src}" />
+		<path refid="classpath.base" />
+	</path>
 
-<target name="init">
-	<mkdir dir="${bin}"/>
-	<mkdir dir="${dist}"/>
-	<mkdir dir="${data}"/>
-</target>
+	<target name="init">
+		<mkdir dir="${bin}" />
+		<mkdir dir="${dist}" />
+		<mkdir dir="${data}" />
+	</target>
 
-<target name="compile" depends="init">
-	<javac srcdir="${src}" destdir="${bin}"/>
-</target>
+	<target name="compile" depends="init">
+		<javac srcdir="${src}" destdir="${bin}" classpath="lib/junit-4.8.2.jar" />
+	</target>
 
-<target name="clean">
-	<delete dir="${bin}"/>
-<delete includeemptydirs="true">
-	<fileset dir="${dist}" includes="*.jar"/>
-	</delete>
-</target>
+	<target name="clean">
+		<delete dir="${bin}" />
+		<delete includeemptydirs="true">
+			<fileset dir="${dist}" includes="*.jar" />
+		</delete>
+	</target>
 
-<target name="run" depends="compile">
- 	<java classname="${mainclass}" classpath="${bin}"/>
-</target>
+	<target name="run" depends="compile">
+		<java classname="${mainclass}" classpath="${bin}" />
+	</target>
 
-<target name="makejar" depends="compile">
-	<jar destfile="${dist}/${jarname}" basedir="${bin}">
-	<manifest>
-      	<attribute name="Main-Class" value="${mainclass}"/>
-        </manifest>
-</jar>
-</target>
+	<target name="makejar" depends="compile">
+		<jar destfile="${dist}/${jarname}" basedir="${bin}">
+			<manifest>
+				<attribute name="Main-Class" value="${mainclass}" />
+			</manifest>
+		</jar>
+	</target>
+	<target name="tests" depends="compile">
 
-<target name="runjar" depends="makejar">
-	<java jar="${dist}/${jarname}" fork="true"/>
-</target>
+		<junit printsummary="yes">
+			<classpath refid="classpath.test" />
+			<formatter type="plain" usefile="false" />
 
-<target name="rebuild" depends="clean,compile"/>
-<target name="cleanrun" depends="rebuild,run"/>
+			<batchtest fork="yes">
+				<fileset dir="${src}">
+					<include name="**/*Test.java" />
+				</fileset>
+			</batchtest>
+
+		</junit>
+	</target>
+<target name="runwithAssertions" depends="compile">
+	<java classname="${mainclass}" classpath="${bin}" fork="true">
+	<jvmarg value="-ea"/>
+		</java>
+	</target>
+
+	<target name="runjar" depends="makejar">
+		<java jar="${dist}/${jarname}" fork="true" />
+	</target>
+
+	<target name="rebuild" depends="clean,compile" />
+	<target name="cleanrun" depends="rebuild,run" />
 
 </project>
 

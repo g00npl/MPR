@@ -16,14 +16,28 @@ public class Animal implements Serializable{
 	public Animal(String name, String species, double weight){
 		this.name = name;
 		this.species = species;
+		assert (weight >= 0) : "waga powinna byc wieksza lub rowna 0";
 		this.weight = weight;
 	}
 
 	@Override
-	public String toString() {
-		return "Animal: "+species+" "+name+" "+weight ;
+	public boolean equals(Object obj) {
+		if( ! (obj instanceof Animal) )
+			return false;
+		Animal objj = (Animal)obj;
+		if( ! ( this.name.equals(objj.name) &&
+				this.species.equals(objj.species) &&
+				this.weight==objj.weight) )
+			return false;
+		else
+			return true;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "Animal: "+species+" "+name+" "+weight;
+	}
+	
 	public String getName(){
 		return name;
 	}
