@@ -1,4 +1,4 @@
-package pl.com.zoo.data;
+package pl.com.zoo.data.file;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

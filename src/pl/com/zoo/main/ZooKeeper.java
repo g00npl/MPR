@@ -7,7 +7,7 @@ import java.util.Set;
 
 import pl.com.zoo.basic.Animal;
 import pl.com.zoo.basic.Class;
-import pl.com.zoo.data.FileManager;
+import pl.com.zoo.data.file.FileManager;
 
 public class ZooKeeper {
 
