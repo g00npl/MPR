@@ -39,7 +39,7 @@ public interface DataManager {
 	 * @param cl
 	 */
 
-	public void addClass(Class cl);
+	public int addOrUpdateClass(Class cl);
 
 	/**
 	 * Usuwa gromade i wszystkie zwierzeta
