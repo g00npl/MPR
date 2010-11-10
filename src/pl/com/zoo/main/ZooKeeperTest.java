@@ -10,12 +10,12 @@ import pl.com.zoo.basic.Class;
 
 public class ZooKeeperTest {
 
-	private ZooKeeper keeper;
+	private ZooKeeperOld keeper;
 	private int initialMapSize;
 
 	@Before
 	public void setUp() {
-		keeper = new ZooKeeper("data/test.bin");
+		keeper = new ZooKeeperOld("data/test.bin");
 		keeper.makeAnimalsRegister();
 		keeper.saveAnimalsToFile();
 		initialMapSize = keeper.animals.size();

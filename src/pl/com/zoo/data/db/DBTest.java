@@ -37,7 +37,7 @@ public void insertionTest(){
 		String aname = "orf";
 		String aspecies = "ogr";
 		double aweight = 20;
-		int up = stmt.executeUpdate("INSERT into animal(name, species, weight) values (''"+aname+"' , '"+aspecies+"', "+aweight+")");
+		int up = stmt.executeUpdate("INSERT into animal(name, species, weight) values ('"+aname+"' , '"+aspecies+"', '"+aweight+"')");
 		ResultSet rs = stmt.executeQuery("SELECT MAX(ID) from animal");
 		int maxId = 0;
 		if(rs.next())
