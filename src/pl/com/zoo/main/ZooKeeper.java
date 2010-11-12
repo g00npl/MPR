@@ -11,11 +11,11 @@ import pl.com.zoo.data.DataManager;
 import pl.com.zoo.data.db.HsqlDataManger;
 
 public class ZooKeeper {
-	protected Map<Class, Set<Animal>> animals = new HashMap<Class, Set<Animal>>();
-	
+	public Map<Class, Set<Animal>> animals = new HashMap<Class, Set<Animal>>();
+
 	private DataManager dm;
-	
-	public ZooKeeper(){
+
+	public ZooKeeper() {
 		dm = new HsqlDataManger();
 	}
 
@@ -28,6 +28,36 @@ public class ZooKeeper {
 				// a.printInfo();
 			}
 		}
+	}
+
+	public boolean addAnimal(Class cl, Animal an) {
+		if (cl == null) {
+			System.err.println("Klasa jest nullem, przerywam");
+			return false;
+		}
+		if (an == null) {
+			System.err.println("Zwierze jest nullem, przerywam");
+			return false;
+		}
+		for (Class c : animals.keySet())
+			for (Animal a : animals.get(c))
+				if (a.equals(an)) {
+					System.err
+							.println("Chcesz Dodac Istniejece Zwierze, przerywam.");
+					return false;
+				}
+		boolean found = false;
+		for (Class c : animals.keySet())
+			if (c.equals(cl)) {
+				animals.get(c).add(an);
+				found = true;
+			}
+		if (!found) {
+			Set<Animal> newSet = new HashSet<Animal>();
+			newSet.add(an);
+			animals.put(cl, newSet);
+		}
+		return found;
 	}
 
 	public void makeAnimalsRegister() {
@@ -50,9 +80,9 @@ public class ZooKeeper {
 
 	public void saveAnimalRegister() {
 
-			for(Class c: animals.keySet())
-				for(Animal a: animals.get(c)){
-					dm.addOrAnimalUpdate(c, a);
-				}
+		for (Class c : animals.keySet())
+			for (Animal a : animals.get(c)) {
+				dm.addOrAnimalUpdate(c, a);
+			}
 	}
 }
