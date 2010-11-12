@@ -178,6 +178,7 @@ public class HsqlDataManger implements DataManager {
 	@Override
 	public Map<Class, Set<Animal>> getAll() {
 		try {
+			zk = new ZooKeeper();
 			ResultSet rs = stmt.executeQuery("SELECT id, name from "
 					+ classTableName);
 
@@ -198,7 +199,8 @@ public class HsqlDataManger implements DataManager {
 				}
 
 			}
-			
+			zk.printAnimals();
+
 		} catch (SQLException e) {
 
 			e.printStackTrace();
