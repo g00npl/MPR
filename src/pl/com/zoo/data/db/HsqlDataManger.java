@@ -142,8 +142,7 @@ public class HsqlDataManger implements DataManager {
 			ps.setString(1, animal.getName());
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			System.err.println("You want remove animal which not exist");
-			fail();
+			fail("You want remove animal which not exist");
 			// e.printStackTrace();
 		}
 
@@ -167,8 +166,7 @@ public class HsqlDataManger implements DataManager {
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail("You want remove class which not exist");
 		}
 
 	}
