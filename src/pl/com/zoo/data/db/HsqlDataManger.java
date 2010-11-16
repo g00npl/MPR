@@ -25,7 +25,7 @@ public class HsqlDataManger implements DataManager {
 	private String animalTableName = "animal";
 	private String classTableName = "class";
 	private Statement stmt;
-	private String host = "10.0.0.7";
+	private String host = "localhost";
 	Animal animalgettall;
 	Class classgetall;
 	ZooKeeper zk;
