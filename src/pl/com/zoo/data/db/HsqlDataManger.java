@@ -182,13 +182,19 @@ public class HsqlDataManger implements DataManager {
 			ps1.setInt(1, rs.getInt("id"));
 			ps1.executeUpdate();
 
+		} catch (SQLException e) {
+			fail("Zadne zwierze nie jest przypisane do klasy ktore chcesz usunac.");
+			//e.printStackTrace();
+		}
+
+		try {
 			PreparedStatement ps = con.prepareStatement("Delete from "
 					+ classTableName + " where name=?");
 			ps.setString(1, cl.getName());
 			ps.executeUpdate();
-
 		} catch (SQLException e) {
 			fail("You want remove class which not exist");
+			//e.printStackTrace();
 		}
 
 	}
