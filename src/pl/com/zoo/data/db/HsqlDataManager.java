@@ -116,6 +116,7 @@ public class HsqlDataManager implements DataManager {
 			
 			if(checkall.next()){
 				if (checkall.getInt("id") > 0) {
+					System.err.println("Animal already exist!");
 					return false;
 				} 
 			}
