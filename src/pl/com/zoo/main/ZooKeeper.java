@@ -8,7 +8,7 @@ import java.util.Set;
 import pl.com.zoo.basic.Animal;
 import pl.com.zoo.basic.Class;
 import pl.com.zoo.data.DataManager;
-import pl.com.zoo.data.db.HsqlDataManger;
+import pl.com.zoo.data.db.HsqlDataManager;
 
 public class ZooKeeper {
 	public Map<Class, Set<Animal>> animals = new HashMap<Class, Set<Animal>>();
@@ -16,7 +16,7 @@ public class ZooKeeper {
 	private DataManager dm;
 
 	public ZooKeeper() {
-		dm = new HsqlDataManger();
+		dm = new HsqlDataManager();
 	}
 
 	public void printAnimals() {
