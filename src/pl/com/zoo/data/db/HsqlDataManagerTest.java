@@ -2,11 +2,10 @@ package pl.com.zoo.data.db;
 
 import static org.junit.Assert.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,7 +13,7 @@ import org.junit.Test;
 
 import pl.com.zoo.basic.Animal;
 import pl.com.zoo.basic.Class;
-import pl.com.zoo.main.ZooKeeper;
+
 
 public class HsqlDataManagerTest {
 	HsqlDataManager hsqldb = new HsqlDataManager();
@@ -110,7 +109,7 @@ public class HsqlDataManagerTest {
 							+ hsqldb.getAnimalTableName() + " where name='"
 							+ testanimal.getName() + "'");
 			while (rs.next()) {
-				licznik = +1;
+				licznik += 1;
 				String aname = rs.getString("name");
 				String aspecies = rs.getString("species");
 				double aweight = rs.getDouble("weight");
@@ -148,7 +147,7 @@ public class HsqlDataManagerTest {
 							+ hsqldb.getAnimalTableName() + " where name='"
 							+ testanimal.getName() + "'");
 			while (rs.next()) {
-				licznik = +1;
+				licznik += 1;
 				String aname = rs.getString("name");
 				String aspecies = rs.getString("species");
 				double aweight = rs.getDouble("weight");
@@ -177,7 +176,7 @@ public class HsqlDataManagerTest {
 					+ hsqldb.getClassTableName() + " where name='"
 					+ testclass.getName() + "'");
 			while (rs.next()) {
-				licznik = +1;
+				licznik += 1;
 				String cname = rs.getString("name");
 				int cid = rs.getInt("id");
 				assertTrue(cname == testclass.getName());
@@ -202,7 +201,7 @@ public class HsqlDataManagerTest {
 					+ hsqldb.getClassTableName() + " where name='"
 					+ testclass.getName() + "'");
 			while (rs.next()) {
-				licznik = +1;
+				licznik += 1;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -213,61 +212,112 @@ public class HsqlDataManagerTest {
 
 	@Test
 	public void addNullClassTest() {
-	Class testclass = new Class(null);
-	int check = hsqldb.addOrUpdateClass(testclass);
-	assertTrue(check == -2);
+		Class testclass = new Class(null);
+		int check = hsqldb.addOrUpdateClass(testclass);
+		assertTrue(check == -2);
 	}
 
 	// Testowanie metody removeAnimal
 	@Test
 	public void removeAnimalTest() {
+		int check = 0;
 		Class testclass = new Class("klasa_testowa");
 		Animal testanimal = new Animal("tescik", "gatunek", 20.0);
 		hsqldb.addOrAnimalUpdate(testclass, testanimal);
 		hsqldb.removeAnimal(testanimal);
-	}
-
-	@Test
-	public void removenoexistAnimalTest() {
-
-	}
-
-	@Test
-	public void removenullAnimalTest() {
-
-	}
-
-	// Testowanie metody removeClass
-	@Test
-	public void removeClassTest() {
-
-	}
-
-	@Test
-	public void removenoexistClassTest() {
-
-	}
-
-	@Test
-	public void removenullClassTest() {
-
-	}
-
-	// Testowanie metody getAll
-	@Test
-	public void getAllTest() {
-
-	}
-
-	@After
-	public void cleantables() {
 		try {
-			stmt.executeUpdate("drop table " + classTableName);
-			stmt.executeUpdate("drop table " + animalTableName);
+			ResultSet rs = hsqldb.stmt.executeQuery("SELECT id from "
+					+ hsqldb.getAnimalTableName() + " where=name'"
+					+ testanimal.getName() + "'");
+			if (!rs.next()) {
+				check = 1;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		assertEquals(check, 1);
+	}
+
+	@Test
+	public void removenoexistAnimalTest() {
+		int check = 0;
+		Animal testanimal = new Animal("tescik", "gatunek", 20.0);
+		hsqldb.removeAnimal(testanimal);
+		try {
+			ResultSet rs = hsqldb.stmt.executeQuery("SELECT id from "
+					+ hsqldb.getAnimalTableName() + " where=name'"
+					+ testanimal.getName() + "'");
+			if (!rs.next()) {
+				check = 1;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals(check, 1);
+	}
+
+//	@Test
+//	public void removenullAnimalTest() {
+//
+//	}
+
+	// Testowanie metody removeClass
+	@Test
+	public void removeClassTest() {
+		int check = 0;
+		Class testclass = new Class("klasa_testowa");
+		hsqldb.addOrUpdateClass(testclass);
+		hsqldb.removeClass(testclass);
+		try {
+			ResultSet rs = hsqldb.stmt.executeQuery("SELECT id from "
+					+ hsqldb.getClassTableName() + " where=name'"
+					+ testclass.getName() + "'");
+			if (!rs.next()) {
+				check = 1;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals(check, 1);
+	}
+
+	@Test
+	public void removenoexistClassTest() {
+		int check = 0;
+		Class testclass = new Class("klasa_testowa");
+		hsqldb.removeClass(testclass);
+		try {
+			ResultSet rs = hsqldb.stmt.executeQuery("SELECT id from "
+					+ hsqldb.getClassTableName() + " where=name'"
+					+ testclass.getName() + "'");
+			if (!rs.next()) {
+				check = 1;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals(check, 1);
+	}
+
+//	@Test
+//	public void removenullClassTest() {
+//
+//	}
+
+	@After
+	public void cleantables() {
+		try {
+			hsqldb.stmt.executeUpdate("Delete from "+ hsqldb.getAnimalTableName());
+			hsqldb.stmt.executeUpdate("Delete from "+ hsqldb.getClassTableName());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+		
 	}
 
 }
