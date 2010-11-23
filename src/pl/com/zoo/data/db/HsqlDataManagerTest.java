@@ -22,8 +22,6 @@ public class HsqlDataManagerTest {
 	public void setUp() {
 		hsqldb.setAnimalTableName("animal_test");
 		hsqldb.setClassTableName("class_test");
-		hsqldb.setHost("localhost");
-
 	}
 
 	@Test
@@ -41,7 +39,7 @@ public class HsqlDataManagerTest {
 				}
 
 			}// odpetli
-
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -56,7 +54,7 @@ public class HsqlDataManagerTest {
 
 				if (meta1.getString("TABLE_NAME").equals(
 						hsqldb.getAnimalTableName().toUpperCase())) {
-					System.err.println("Tabela ANIMAL istnieje.");
+					System.err.println("Tabela ANIMALasdad istnieje.");
 					licznik = 1;
 				}
 
@@ -72,10 +70,11 @@ public class HsqlDataManagerTest {
 	// Testowanie metody addAnimal
 	@Test
 	public void addnewAnimalTest() {
-		Class testclass = new Class("klasa_testowa");
+		Class testclass = new Class("sss");
 		Animal testanimal = new Animal("tescik", "gatunek", 20.0);
 		boolean check = hsqldb.addOrAnimalUpdate(testclass, testanimal);
-		assertTrue(check);
+		
+		assertTrue(check == true);
 		try {
 			ResultSet rs = hsqldb.stmt
 					.executeQuery("SELECT name, species, weight from "
@@ -85,9 +84,9 @@ public class HsqlDataManagerTest {
 				String aname = rs.getString("name");
 				String aspecies = rs.getString("species");
 				double aweight = rs.getDouble("weight");
-				assertTrue(aname == testanimal.getName());
-				assertTrue(aspecies == testanimal.getSpecies());
-				assertTrue(aweight == testanimal.getWeight());
+				assertEquals(aname,testanimal.getName());
+				assertEquals(aspecies, testanimal.getSpecies());
+				assertEquals(aweight, testanimal.getWeight(), 0);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -95,7 +94,7 @@ public class HsqlDataManagerTest {
 		}
 
 	}
-
+	@Test
 	public void addexistAnimalTest() {
 		Class testclass = new Class("klasa_testowa");
 		Animal testanimal = new Animal("tescik", "gatunek", 20.0);
@@ -113,9 +112,9 @@ public class HsqlDataManagerTest {
 				String aname = rs.getString("name");
 				String aspecies = rs.getString("species");
 				double aweight = rs.getDouble("weight");
-				assertTrue(aname == testanimal.getName());
-				assertTrue(aspecies == testanimal.getSpecies());
-				assertTrue(aweight == testanimal.getWeight());
+				assertEquals(aname,testanimal.getName());
+				assertEquals(aspecies, testanimal.getSpecies());
+				assertEquals(aweight, testanimal.getWeight(), 0);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -151,9 +150,9 @@ public class HsqlDataManagerTest {
 				String aname = rs.getString("name");
 				String aspecies = rs.getString("species");
 				double aweight = rs.getDouble("weight");
-				assertTrue(aname == testanimal1.getName());
-				assertTrue(aspecies == testanimal1.getSpecies());
-				assertTrue(aweight == testanimal1.getWeight());
+				assertEquals(aname,testanimal.getName());
+				assertEquals(aspecies, testanimal.getSpecies());
+				assertEquals(aweight, testanimal1.getWeight(), 0);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -163,7 +162,7 @@ public class HsqlDataManagerTest {
 
 	}
 
-	// Testowanie metody addClass
+//	// Testowanie metody addClass
 	@Test
 	public void addnewClassTest() {
 		Class testclass = new Class("klasa_testowa");
@@ -179,8 +178,8 @@ public class HsqlDataManagerTest {
 				licznik += 1;
 				String cname = rs.getString("name");
 				int cid = rs.getInt("id");
-				assertTrue(cname == testclass.getName());
-				assertTrue(check == cid);
+				assertEquals(cname,testclass.getName());
+				assertEquals(check,cid);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -217,7 +216,7 @@ public class HsqlDataManagerTest {
 		assertTrue(check == -2);
 	}
 
-	// Testowanie metody removeAnimal
+//	// Testowanie metody removeAnimal
 	@Test
 	public void removeAnimalTest() {
 		int check = 0;
@@ -227,7 +226,7 @@ public class HsqlDataManagerTest {
 		hsqldb.removeAnimal(testanimal);
 		try {
 			ResultSet rs = hsqldb.stmt.executeQuery("SELECT id from "
-					+ hsqldb.getAnimalTableName() + " where=name'"
+					+ hsqldb.getAnimalTableName() + " where name='"
 					+ testanimal.getName() + "'");
 			if (!rs.next()) {
 				check = 1;
@@ -246,7 +245,7 @@ public class HsqlDataManagerTest {
 		hsqldb.removeAnimal(testanimal);
 		try {
 			ResultSet rs = hsqldb.stmt.executeQuery("SELECT id from "
-					+ hsqldb.getAnimalTableName() + " where=name'"
+					+ hsqldb.getAnimalTableName() + " where name='"
 					+ testanimal.getName() + "'");
 			if (!rs.next()) {
 				check = 1;
@@ -258,12 +257,12 @@ public class HsqlDataManagerTest {
 		assertEquals(check, 1);
 	}
 
-//	@Test
-//	public void removenullAnimalTest() {
+////	@Test
+////	public void removenullAnimalTest() {
+////
+////	}
 //
-//	}
-
-	// Testowanie metody removeClass
+//	// Testowanie metody removeClass
 	@Test
 	public void removeClassTest() {
 		int check = 0;
@@ -272,7 +271,7 @@ public class HsqlDataManagerTest {
 		hsqldb.removeClass(testclass);
 		try {
 			ResultSet rs = hsqldb.stmt.executeQuery("SELECT id from "
-					+ hsqldb.getClassTableName() + " where=name'"
+					+ hsqldb.getClassTableName() + " where name='"
 					+ testclass.getName() + "'");
 			if (!rs.next()) {
 				check = 1;
@@ -291,7 +290,7 @@ public class HsqlDataManagerTest {
 		hsqldb.removeClass(testclass);
 		try {
 			ResultSet rs = hsqldb.stmt.executeQuery("SELECT id from "
-					+ hsqldb.getClassTableName() + " where=name'"
+					+ hsqldb.getClassTableName() + " where name='"
 					+ testclass.getName() + "'");
 			if (!rs.next()) {
 				check = 1;

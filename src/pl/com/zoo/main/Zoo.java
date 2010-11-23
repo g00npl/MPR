@@ -15,10 +15,11 @@ public class Zoo {
 		// zk.printAnimals();
 
 		HsqlDataManager manager = new HsqlDataManager();
-		zk.makeAnimalsRegister();
-		zk.printAnimals();
-		zk.saveAnimalRegister();
-		manager.getAll();
+		manager.maketables();
+//		zk.makeAnimalsRegister();
+//		zk.printAnimals();
+//		zk.saveAnimalRegister();
+//		manager.getAll();
 
 	}
 
